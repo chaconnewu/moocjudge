@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.0/semantic.min.css" />
+    <style>
+    .editor {
+        /** Setting height is also important, otherwise editor wont showup**/
+        height: 350px;
+        width: 100%;
+    }
+    .output {
+        font-size: large;
+    }
+
+    body {
+        font-size: large;
+    }
+
+    </style>
+    <script>
+	    /**
+		 * TogetherJS configuration
+		 */
+		TogetherJSConfig_hubBase = "http://dataagent.org:8001";
+		TogetherJSConfig_findRoom = {prefix: "wuyu", max: 5};
+		TogetherJSConfig_autoStart = true;
+		TogetherJSConfig_suppressJoinConfirmation = true;
+// 		TogetherJSConfig_storagePrefix = "tjs_madlibs";
+		TogetherJSConfig_cloneClicks = true;
+		TogetherJSConfig_getUserName = function () {return 'Yu Wu';};
+		TogetherJSConfig_getUserColor = function () {return '#ff00ff';};
+
+    </script>
+
+    </head>
+    <body>
+	<div class="ui fixed inverted main menu">
+		<div class="container">
+			<a class="launch item">
+				<i class='content icon'></i>
+			</a>
+			<div class="right menu">
+				<div class="title item"><b>Welcome!</b></div>
+			</div>
+		</div>
+	</div>
+    <div class='ui grid'>
+        <div class="fourteen wide column">
+        <h1 class='ui header'>MOOC/Peer Judge</h1>
+        </div>
+
+    </div>
+    <hr />
+<!--     <button id='collaborate' class='ui red button'>Start Collaborating</button> -->
+    <div class='ui grid'>
+        <div class="row">
+            <div class="one wide column"></div>
+            <div class="ten wide column">
+                <h2 class='ui header'>Merge Sort</h2>
+                <h3 class='ui header'>Description</h3>
+                <div>
+                    Write a program that takes an array as input, and return an array that is sorted in ascending order.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="one wide column"></div>
+            <div class="five wide column">
+            <div class="ui form">
+              <div class="field">
+                <label>Programming Language</label>
+                <select id='languageDropdown' class="ui dropdown">
+                  <option value="python">Python</option>
+                  <option value="javascript">JavaScript</option>
+                  <option value="c_cpp">C/C++</option>
+                </select>
+              </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="one wide column">
+
+            </div>
+            <div class="seven wide column">
+                <div id="authorEditor" class="editor"></div>
+                <div id="authorSubmitButton" class="ui blue button">Submit</div>
+                <div id="authorCopyButton" class="ui blue button">Copy from Reviewer</div>
+
+            </div>
+            <div class="seven wide column">
+                <div id='reviewerEditor' class="editor"></div>
+                <div id="reviewerSubmitButton" class="ui blue button">Submit</div>
+                <div id="reviewerCopyButton" class="ui blue button">Copy from Author</div>
+
+            </div>
+
+        <div class="one wide column"></div>
+    </div>
+    <div class='ui grid'>
+	    <div class="row">
+        	<div class="one wide column"></div>
+			<div class="fourteen wide column">
+	           	 <h2 class="ui header">Output</h2>
+	           	 <hr />
+	         </div>
+
+	    </div>
+        
+        <div class='row'>
+        <div class="one wide column"></div>
+        <div class="seven wide column">
+        	<div id="authorOutput" class="output"></div>
+        	
+        </div>
+
+        <div class="seven wide column">
+        	<div id="reviewerOutput" class="output"></div>
+        </div>
+	        
+    </div>
+    <div class='ui grid'>
+	    <div class="row">
+		    <div class="one wide column"></div>
+			<div class="fourteen wide column">
+				<hr />
+				<div>Copyright ©2015, CSCL Lab @ The Pennsylvania State University</div>
+			</div>
+	    </div>
+    </div>
+
+	<div class="ui basic modal">
+		<i class="close icon"></i>
+		<div class="header">
+			Please login with GitHub Account
+		</div>
+		<div class="content">
+			<div class="massive ui labeled inverted icon button">
+			  <i class="large github icon"></i>
+			  Login with GitHub
+		</div>
+		
+		</div>
+		<div class="actions">
+			<div class="one fluid ui inverted buttons">
+				<div class="ui red basic inverted button">
+				    <i class="remove icon"></i>
+				    Or not...
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.0/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.js"></script>
+    <script src="https://togetherjs.com/togetherjs-min.js"></script>
+<!-- 	<script src="togetherjs/togetherjs-min.js"></script> -->
+    <script type='text/javascript'>
+        function initializeEditor(editor, language) {
+            editor.getSession().setMode("ace/mode/"+language);
+            editor.getSession().setUseWrapMode(true);
+            var commentLine = "please put your " + language + " code here \n";
+            switch (language) {
+	            case 'python': commentLine = "# " + commentLine;
+	            	break;
+	            case 'javascript': commentLine = "// " + commentLine;
+	            	break;
+	            case 'c_cpp': commentLine = "// " + commentLine;
+	            	break; 	            
+            }
+
+            editor.getSession().setValue(commentLine);
+	        
+        }
+        
+        $().ready(function(){
+				
+/*
+			TogetherJS.hub.on('languageChange', function(msg) {
+				console.log('message received ' + msg);
+			});		
+*/
+				
+/*
+			$('#collaborate').click(function(){
+				TogetherJS(this); 
+				return false;				
+			});
+*/
+
+/*
+			TogetherJSConfig_on = {
+				ready: function () {
+					console.log('in together js config');
+				}
+			};
+*/
+			
+			// Initialize author code pane
+            var authorEditor = ace.edit("authorEditor");
+            initializeEditor(authorEditor, 'python');
+
+			// Initialize reviewer code pane
+            var reviewerEditor = ace.edit("reviewerEditor");
+            initializeEditor(reviewerEditor, 'python');
+//             reviewerEditor.setReadOnly(true);
+
+			$('.ui.dropdown').dropdown({
+				onChange: function (language) {
+					if (language === undefined) {
+						language = 'python';
+					}
+				    initializeEditor(authorEditor, language);
+				    initializeEditor(reviewerEditor, language);
+
+				}
+			});
+			
+			
+			
+			TogetherJS.hub.on('togetherjs.hello', function(msg){
+				console.log('in hello');	
+				TogetherJS.send({type: "languageChange", language: ($('.ui.dropdown').dropdown('get value'))});
+			});
+/*
+            $('.ui.dropdown').dropdown({
+				onChange: function (language) {
+					if (language === undefined) {
+						language = 'python';
+					}
+				    initializeEditor(authorEditor, language);
+				    initializeEditor(reviewerEditor, language);
+				    
+
+				}
+			});
+*/
+
+            $("#authorSubmitButton").click(function(){
+				$('.ui.dropdown').dropdown({});
+	            var language = $('.ui.dropdown').dropdown('get value');
+                var authorProgramContent = authorEditor.getSession().getValue();
+                var posting = $.post('/runProgram', {content: authorProgramContent, language: language});
+// 				var posting = $.post('/runProgram', {content: authorProgramContent, language: 'python'});
+                posting.done(function(data) {
+                    var display_data = data.replace(/\n/g, '<br />');
+                    $('#authorOutput').html(display_data);
+                });
+            });
+            
+            $("#reviewerSubmitButton").click(function(){
+	            var language = $('.ui.dropdown').dropdown('get value');
+                var reviewerProgramContent = reviewerEditor.getSession().getValue();
+                var posting = $.post('/runProgram', {content: reviewerProgramContent, language: language});
+
+                posting.done(function(data) {
+	                console.log(data);
+                    display_data = data.replace(/\n/g, '<br />');
+                    $('#reviewerOutput').html(display_data);
+                });
+            });
+            
+			$("#authorCopyButton").click(function(){
+				var reviewerProgramContent = reviewerEditor.getSession().getValue();
+				authorEditor.getSession().setValue(reviewerProgramContent);
+				
+			});
+			
+			$("#reviewerCopyButton").click(function(){
+				var authorProgramContent = authorEditor.getSession().getValue();
+				reviewerEditor.getSession().setValue(authorProgramContent);
+				
+			});
+//             $('.basic.modal').modal('show');
+
+        });
+
+    </script>
+    </body>
+</html>
